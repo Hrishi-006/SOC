@@ -277,38 +277,3 @@ while True:
 
 
 
-def chat(model, prompt, history=None, max_length=100):
-    if history is None:
-        history = []
-
-    conv_history = "\n\n".join(
-        f"[HUMAN] {h['human']}\n[BOT] {h['bot']}"
-        for h in history
-    )
-
-    full_prompt = f"{conv_history}\n\n[HUMAN] {prompt}\n[BOT]" if history else f"[HUMAN] {prompt}\n[BOT]"
-    input_ids = torch.tensor([encode(full_prompt)], dtype=torch.long).to(device)
-
-    with torch.no_grad():
-        output = model.generate(input_ids, max_new_tokens=max_length)
-
-    response = decode(output[0][input_ids.shape[1]:].tolist())
-    response = response.strip().split("[HUMAN]")[0].strip() 
-    return response
-
-
-
-history = []
-max_history = 3 ]
-
-while True:
-    prompt = input("You: ").strip()
-    if prompt.lower() in ["exit", "quit"]:
-        break
-
-    reply = chat(model, prompt, history[-max_history:] if history else None)
-    print("Bot:", reply)
-
-    history.append({'human': prompt, 'bot': reply})
-    if len(history) > max_history + 2: 
-        history = history[-max_history:]
