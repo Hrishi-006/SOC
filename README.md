@@ -1,4 +1,4 @@
-#NanoGPT
+# NanoGPT
 
 For my Seasons of Code(2025) project, I modified Andrej Karpathy's NanoGPT to function as a conversational chatbot trained on a dataset from kaggle.
 
